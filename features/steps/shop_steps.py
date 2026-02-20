@@ -1,5 +1,6 @@
 from behave import given, when, then
 from app.eshop import Product, ShoppingCart, Order
+from unittest.mock import Mock
 
 
 @given('A product "{name}" with price {price} and availability {amount}')
@@ -27,8 +28,11 @@ def remove_product_step(context):
 
 @when('I place an order')
 def place_order_step(context):
-    order = Order(context.cart)
-    order.place_order()
+
+    dummy_shipping_service = Mock() 
+
+    order = Order(context.cart, dummy_shipping_service)
+    order.place_order("standard")
 
 
 @then('Product is added to the cart successfully')
